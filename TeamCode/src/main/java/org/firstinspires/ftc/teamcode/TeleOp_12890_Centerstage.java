@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v59", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_IntoTheDeep v1", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -86,8 +86,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
-            double elevatorControl = gamepad2.left_stick_y;
-            double tiltAmount = gamepad2.right_stick_y;
+          //  double elevatorControl = gamepad2.left_stick_y;
             boolean retractHangingMotorButtonPressed = gamepad2.a;
             boolean extendHangingMotorButtonPressed = gamepad2.y;
             boolean openClawButtonPressed = gamepad2.right_bumper;
@@ -99,7 +98,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
-            double elevatorPower = elevatorControl;
+          //  double elevatorPower = elevatorControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -145,19 +144,19 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
                 robot.retractHangingMotor(0);
             }
 
-            robot.tilt(tiltAmount);
 
-            if (elevatorControl > 0) {
-                robot.elevate(elevatorPower);
-            }else {
-                robot.elevate(0);
-            }
 
-            if (elevatorControl < 0) {
-                robot.lower(elevatorPower);
-            }else{
-                robot.lower(0);
-            }
+//            if (elevatorControl > 0) {
+//                robot.elevate(elevatorPower);
+//            }else {
+//                robot.elevate(0);
+//            }
+//
+//            if (elevatorControl < 0) {
+//                robot.lower(elevatorPower);
+//            }else{
+//                robot.lower(0);
+//            }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);
