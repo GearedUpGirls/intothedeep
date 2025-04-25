@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,8 +14,8 @@ public class Robot {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor hangingMotor = null;
-
-  //  public DcMotor elevatorMotor = null;
+    public DcMotor pivotArmMotor = null;
+    public DcMotor slideMotor = null;
     public Servo rightClaw = null;
     public Servo leftClaw = null;
     static final double RIGHT_CLAW_CLOSED_POSITION = 0.175;
@@ -40,7 +41,7 @@ public class Robot {
     //    static final double ELEVATOR_WHEEL_DIAMETER_CENTIMETERS = 4;
     static final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (DRIVE_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
-//    static final double ELEVATOR_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    //    static final double ELEVATOR_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
 //            (ELEVATOR_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
     public final double FIELD_TILE = 60.96; //cm
 
@@ -55,29 +56,35 @@ public class Robot {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
-      //  elevatorMotor = hardwareMap.get(DcMotor.class, "elevator_motor");
+        pivotArmMotor = hardwareMap.get(DcMotor.class, "pivot_arm_motor");
+        slideMotor = hardwareMap.get(DcMotor.class, "slide_motor");
         rightClaw = hardwareMap.get(Servo.class, "right_claw");
         leftClaw = hardwareMap.get(Servo.class, "left_claw");
+
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
-      //  elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
+        pivotArmMotor.setDirection(DcMotor.Direction.FORWARD);
+        slideMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-      //  elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pivotArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-     //   elevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pivotArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     // move forward / backward function
@@ -222,27 +229,31 @@ public class Robot {
     }
 
 
-
-//    public void autonElevate(double distanceCm, double power) {
-//        int elevatorTargetPosition = elevatorMotor.getCurrentPosition() + (int) (distanceCm * 900);
+//   public void autonElevate(double distanceCm, double power) {
+//    int elevatorTargetPosition = elevatorMotor.getCurrentPosition() + (int) (distanceCm * 900);
 //
 //
-//
-//        elevatorMotor.setTargetPosition(elevatorTargetPosition);
-//
+//      elevatorMotor.setTargetPosition(elevatorTargetPosition);
+////
 //        elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //
 //        elevatorMotor.setPower(Math.abs(power));
 
+    //
+    public void armPivotUp(double power) {
+        pivotArmMotor.setPower((Math.abs(power)));
     }
 
-//
-//    public void elevate(double power) {
-//        elevatorMotor.setPower(-(Math.abs(power)));
-//    }
-//
-//    public void lower(double power) {
-//        elevatorMotor.setPower((Math.abs(power)));
-//    }
-//}
+    public void armPivotDown(double power) {
+        pivotArmMotor.setPower(-(Math.abs(power)));
+    }
+
+    public void extendSlide(double power) {
+        slideMotor.setPower((Math.abs(power)));
+    }
+
+    public void retractSlide(double power) {
+        slideMotor.setPower(-(Math.abs(power)));
+    }
+}
 
