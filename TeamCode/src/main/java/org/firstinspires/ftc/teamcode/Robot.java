@@ -27,6 +27,15 @@ public class Robot {
     static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.9;
     static final double MAX_DRIVE_SPEED = 0.5;
 
+    static final double PIVOT_ARM_UP = 45;
+
+    static final double ARM_TICKS_PER_DEGREE =
+            28 // number of encoder ticks per rotation of the bare motor
+                    * 250047.0 / 4913.0 // This is the exact gear ratio of the 50.9:1 Yellow Jacket gearbox
+                    * 100.0 / 20.0 // This is the external gear reduction, a 20T pinion gear that drives a 100T hub-mount gear
+                    * 1/360.0; // we want ticks per degree, not per rotation
+
+
     public ElapsedTime runtime = new ElapsedTime();
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
@@ -55,7 +64,7 @@ public class Robot {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
+//        hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
         pivotArmMotor = hardwareMap.get(DcMotor.class, "pivot_arm_motor");
         slideMotor = hardwareMap.get(DcMotor.class, "slide_motor");
         rightClaw = hardwareMap.get(Servo.class, "right_claw");
@@ -66,8 +75,8 @@ public class Robot {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        hangingMotor.setDirection(DcMotor.Direction.FORWARD);
-        pivotArmMotor.setDirection(DcMotor.Direction.FORWARD);
+//        hangingMotor.setDirection(DcMotor.Direction.FORWARD);
+        pivotArmMotor.setDirection(DcMotor.Direction.REVERSE);
         slideMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
@@ -85,6 +94,8 @@ public class Robot {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pivotArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     // move forward / backward function
@@ -220,26 +231,25 @@ public class Robot {
         leftClaw.setPosition(LEFT_CLAW_COMPLETELY_OPEN_POSITION);
     }
 
-    public void extendHangingMotor(double power) {
-        hangingMotor.setPower(Math.abs(power));
-    }
-
-    public void retractHangingMotor(double power) {
-        hangingMotor.setPower(-(Math.abs(power)));
-    }
-
-
-//   public void autonElevate(double distanceCm, double power) {
-//    int elevatorTargetPosition = elevatorMotor.getCurrentPosition() + (int) (distanceCm * 900);
+//    public void extendHangingMotor(double power) {
+//        hangingMotor.setPower(Math.abs(power));
+//    }
 //
-//
-//      elevatorMotor.setTargetPosition(elevatorTargetPosition);
-////
-//        elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        elevatorMotor.setPower(Math.abs(power));
+//    public void retractHangingMotor(double power) {
+//        hangingMotor.setPower(-(Math.abs(power)));
+//    }
 
-    //
+
+   public void autoArmPivot(double degrees, double power) {
+       int pivotArmTargetPosition = pivotArmMotor.getCurrentPosition() + (int) (degrees * ARM_TICKS_PER_DEGREE);
+
+
+       pivotArmMotor.setTargetPosition(pivotArmTargetPosition);
+       pivotArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+       pivotArmMotor.setPower(Math.abs(power));
+
+   }
     public void armPivotUp(double power) {
         pivotArmMotor.setPower((Math.abs(power)));
     }
@@ -247,6 +257,7 @@ public class Robot {
     public void armPivotDown(double power) {
         pivotArmMotor.setPower(-(Math.abs(power)));
     }
+
 
     public void extendSlide(double power) {
         slideMotor.setPower((Math.abs(power)));

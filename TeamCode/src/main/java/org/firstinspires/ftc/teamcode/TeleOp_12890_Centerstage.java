@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -61,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_IntoTheDeep v1", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_IntoTheDeep v10", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -77,6 +78,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+
         waitForStart();
         runtime.reset();
 
@@ -86,11 +88,12 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
-          //  double elevatorControl = gamepad2.left_stick_y;
-            boolean retractHangingMotorButtonPressed = gamepad2.a;
-            boolean extendHangingMotorButtonPressed = gamepad2.y;
-            boolean openClawButtonPressed = gamepad2.right_bumper;
-            boolean closeClawButtonPressed = gamepad2.left_bumper;
+            double pivotArmControl = gamepad2.left_stick_y;
+            double slideControl = gamepad2.right_stick_y;
+//            boolean retractHangingMotorButtonPressed = gamepad2.a;
+//            boolean extendHangingMotorButtonPressed = gamepad2.y;
+            boolean openClawButtonPressed = gamepad2.left_bumper;
+            boolean closeClawButtonPressed = gamepad2.right_bumper;
             boolean completelyOpenClawButtonPressed = gamepad2.b;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -98,7 +101,8 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
-          //  double elevatorPower = elevatorControl;
+            double pivotArmPower = pivotArmControl;
+            double slidePower = slideControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -132,31 +136,51 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
                 robot.completelyOpenClaw();
             }
 
-            if (extendHangingMotorButtonPressed) {
-                robot.extendHangingMotor(1);
-            } else {
-                robot.extendHangingMotor(0);
+            if (gamepad2.y) {
+                robot.pivotArmMotor.setTargetPosition(0);
+                robot.pivotArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.pivotArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
 
-            if (retractHangingMotorButtonPressed) {
-                robot.retractHangingMotor(1);
-            } else {
-                robot.retractHangingMotor(0);
-            }
-
-
-
-//            if (elevatorControl > 0) {
-//                robot.elevate(elevatorPower);
-//            }else {
-//                robot.elevate(0);
+//            if (extendHangingMotorButtonPressed) {
+//                robot.extendHangingMotor(1);
+//            } else {
+//                robot.extendHangingMotor(0);
 //            }
 //
-//            if (elevatorControl < 0) {
-//                robot.lower(elevatorPower);
-//            }else{
-//                robot.lower(0);
+//            if (retractHangingMotorButtonPressed) {
+//                robot.retractHangingMotor(1);
+//            } else {
+//                robot.retractHangingMotor(0);
 //            }
+
+//            if (pivotArmControl > 0) {
+//                robot.armPivotUp(pivotArmPower);
+//            }else {
+//                robot.pivotArmMotor.setPower(0.1);
+//            }
+//
+//            if (pivotArmControl < 0) {
+//                robot.armPivotDown(pivotArmPower);
+//            }else {
+//                robot.pivotArmMotor.setPower(0.1);
+//            }
+
+            if (gamepad2.x) {
+                robot.autoArmPivot(-135, 0.5);
+            }
+
+            if (slideControl > 0) {
+                robot.extendSlide(slidePower);
+            }else {
+                robot.slideMotor.setPower(0);
+            }
+
+            if (slideControl < 0) {
+                robot.retractSlide(slidePower);
+            }else {
+                robot.slideMotor.setPower(0);
+            }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);
