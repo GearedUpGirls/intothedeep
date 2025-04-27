@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_IntoTheDeep v19", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_IntoTheDeep v36", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -95,6 +95,8 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             boolean openClawButtonPressed = gamepad2.left_bumper;
             boolean closeClawButtonPressed = gamepad2.right_bumper;
             boolean completelyOpenClawButtonPressed = gamepad2.b;
+            boolean startRightClawButtonPressed = gamepad2.dpad_right;
+            boolean startLeftClawButtonPresses = gamepad2.dpad_left;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;
@@ -181,6 +183,13 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
                 robot.slideMotor.setPower(0);
             }
 
+            if (startLeftClawButtonPresses){
+                robot.leftClaw.setPosition(0);
+            }
+
+            if (startRightClawButtonPressed){
+                robot.rightClaw.setPosition(0);
+            }
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);

@@ -18,11 +18,11 @@ public class Robot {
     public DcMotor slideMotor = null;
     public Servo rightClaw = null;
     public Servo leftClaw = null;
-    static final double RIGHT_CLAW_CLOSED_POSITION = 0.175;
+    static final double RIGHT_CLAW_CLOSED_POSITION = 0.6;
     //change these values
-    static final double LEFT_CLAW_CLOSED_POSITION = 0.625;
-    static final double RIGHT_CLAW_OPEN_POSITION = 0;
-    static final double LEFT_CLAW_OPEN_POSITION = 0.8;
+    static final double LEFT_CLAW_CLOSED_POSITION = 0.6;
+    static final double RIGHT_CLAW_OPEN_POSITION =0.4;
+    static final double LEFT_CLAW_OPEN_POSITION = 0.4;
     static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
     static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.9;
     static final double MAX_DRIVE_SPEED = 0.5;
@@ -78,6 +78,7 @@ public class Robot {
 //        hangingMotor.setDirection(DcMotor.Direction.FORWARD);
         pivotArmMotor.setDirection(DcMotor.Direction.REVERSE);
         slideMotor.setDirection(DcMotor.Direction.FORWARD);
+        leftClaw.setDirection(Servo.Direction.REVERSE);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
