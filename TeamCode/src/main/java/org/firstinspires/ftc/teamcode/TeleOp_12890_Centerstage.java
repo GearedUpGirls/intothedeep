@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_IntoTheDeep v10", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_IntoTheDeep v19", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -126,21 +126,19 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 
             if (openClawButtonPressed) {
                 robot.openClaw();
-            }
-
-            if (closeClawButtonPressed) {
+            } else if (closeClawButtonPressed) {
                 robot.closeClaw();
             }
+//
+//            if(completelyOpenClawButtonPressed){
+//                robot.completelyOpenClaw();
+//            }
 
-            if(completelyOpenClawButtonPressed){
-                robot.completelyOpenClaw();
-            }
-
-            if (gamepad2.y) {
-                robot.pivotArmMotor.setTargetPosition(0);
-                robot.pivotArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.pivotArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            }
+//            if (gamepad2.y) {
+//                robot.pivotArmMotor.setTargetPosition(0);
+//                robot.pivotArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                robot.pivotArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            }
 
 //            if (extendHangingMotorButtonPressed) {
 //                robot.extendHangingMotor(1);
@@ -153,22 +151,23 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 //            } else {
 //                robot.retractHangingMotor(0);
 //            }
-
-//            if (pivotArmControl > 0) {
+            robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            if (pivotArmControl > 0) {
+                robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                robot.pivotArmMotor.setPower(pivotArmControl);
 //                robot.armPivotUp(pivotArmPower);
-//            }else {
-//                robot.pivotArmMotor.setPower(0.1);
-//            }
-//
-//            if (pivotArmControl < 0) {
-//                robot.armPivotDown(pivotArmPower);
-//            }else {
-//                robot.pivotArmMotor.setPower(0.1);
-//            }
-
-            if (gamepad2.x) {
-                robot.autoArmPivot(-135, 0.5);
+            } else if (pivotArmControl<0){
+                robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                robot.pivotArmMotor.setPower(pivotArmControl);
             }
+            else {
+                robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+              robot.pivotArmMotor.setPower(0);
+            }
+
+//            if (gamepad2.x) {
+//                robot.autoArmPivot(-5, 0.5);
+//            }
 
             if (slideControl > 0) {
                 robot.extendSlide(slidePower);

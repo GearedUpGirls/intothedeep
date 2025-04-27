@@ -95,7 +95,7 @@ public class Robot {
         pivotArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+      //  pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     // move forward / backward function
@@ -242,12 +242,12 @@ public class Robot {
 
    public void autoArmPivot(double degrees, double power) {
        int pivotArmTargetPosition = pivotArmMotor.getCurrentPosition() + (int) (degrees * ARM_TICKS_PER_DEGREE);
-
-
-       pivotArmMotor.setTargetPosition(pivotArmTargetPosition);
        pivotArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-       pivotArmMotor.setPower(Math.abs(power));
+       pivotArmMotor.setTargetPosition(pivotArmTargetPosition);
+
+
+//       pivotArmMotor.setPower(Math.abs(power));
 
    }
     public void armPivotUp(double power) {
