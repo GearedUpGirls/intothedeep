@@ -240,7 +240,7 @@ public class Robot {
 //    }
 
 
-   public void autoArmPivot(double degrees, double power) {
+   public void autoArmPivot(double degrees) {
        int pivotArmTargetPosition = pivotArmMotor.getCurrentPosition() + (int) (degrees * ARM_TICKS_PER_DEGREE);
        pivotArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
