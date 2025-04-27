@@ -267,4 +267,3 @@ public class Robot {
         slideMotor.setPower(-(Math.abs(power)));
     }
 }
-
