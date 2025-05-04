@@ -25,7 +25,7 @@ public class Robot {
     static final double LEFT_CLAW_OPEN_POSITION = 0.4;
     static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
     static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.9;
-    static final double MAX_DRIVE_SPEED = 0.5;
+    static final double MAX_DRIVE_SPEED = 0.75;
 
     static final double PIVOT_ARM_UP = 45;
 
@@ -33,6 +33,11 @@ public class Robot {
             28 // number of encoder ticks per rotation of the bare motor
                     * 250047.0 / 4913.0 // This is the exact gear ratio of the 50.9:1 Yellow Jacket gearbox
                     * 100.0 / 20.0 // This is the external gear reduction, a 20T pinion gear that drives a 100T hub-mount gear
+                    * 1/360.0; // we want ticks per degree, not per rotation
+
+    static final double SLIDE_TICKS_PER_CENTIMETER =
+            28 // number of encoder ticks per rotation of the bare motor
+                    * 250047.0 / 4913.0 // This is the exact gear ratio of the 50.9:1 Yellow Jacket gearbox
                     * 1/360.0; // we want ticks per degree, not per rotation
 
 
@@ -52,7 +57,7 @@ public class Robot {
             (DRIVE_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
     //    static final double ELEVATOR_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
 //            (ELEVATOR_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
-    public final double FIELD_TILE = 60.96; //cm
+    public static final double FIELD_TILE = 60.96; //cm
 
     public HardwareMap hardwareMap;
 
@@ -267,4 +272,8 @@ public class Robot {
     public void retractSlide(double power) {
         slideMotor.setPower(-(Math.abs(power)));
     }
+
+//    public void autoMoveSlide (double centimeters){
+//        int slideMotorTargetPosition = slideMotor.getCurrentPosition() + (int) (centimeters * SLIDE_TICKS_PER_DEGREE);
+//    }
 }

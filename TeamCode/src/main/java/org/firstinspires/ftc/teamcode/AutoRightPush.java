@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "AutoRightPush v1",group = "Concept")
+@Autonomous(name = "AutoRightPush v3",group = "Concept")
 public class AutoRightPush extends LinearOpMode {
 
     @Override
@@ -11,8 +11,8 @@ public class AutoRightPush extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()){
             robot.init(hardwareMap);
-            robot.driveForward(robot.FIELD_TILE/5,0.75);
-            robot.strafeLeft(robot.FIELD_TILE*3,0.75);
+            robot.driveForward(Robot.FIELD_TILE/7,Robot.MAX_DRIVE_SPEED);
+            robot.strafeLeft(Robot.FIELD_TILE*3,Robot.MAX_DRIVE_SPEED);
 
         }
     }

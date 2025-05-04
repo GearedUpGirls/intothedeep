@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "AutoMiddleParkClose v1",group = "Concept")
+@Autonomous(name = "AutoMiddleParkClose v5",group = "Concept")
 public class AutoMiddleParkClose extends LinearOpMode {
 
     @Override
@@ -11,7 +11,8 @@ public class AutoMiddleParkClose extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()){
             robot.init(hardwareMap);
-            robot.strafeRight(robot.FIELD_TILE*2,0.75);
+            robot.driveForward(Robot.FIELD_TILE/5,Robot.MAX_DRIVE_SPEED);
+            robot.strafeRight(Robot.FIELD_TILE*2.3,Robot.MAX_DRIVE_SPEED);
 
         }
     }

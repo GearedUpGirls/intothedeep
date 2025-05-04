@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_IntoTheDeep v36", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_IntoTheDeep v40", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -91,7 +91,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double pivotArmControl = gamepad2.left_stick_y;
             double slideControl = gamepad2.right_stick_y;
 //            boolean retractHangingMotorButtonPressed = gamepad2.a;
-//            boolean extendHangingMotorButtonPressed = gamepad2.y;
+//            boolean extendHan gingMotorButtonPressed = gamepad2.y;
             boolean openClawButtonPressed = gamepad2.left_bumper;
             boolean closeClawButtonPressed = gamepad2.right_bumper;
             boolean completelyOpenClawButtonPressed = gamepad2.b;
@@ -121,10 +121,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             }
 
             // Send calculated power to wheels
-            robot.leftFrontDrive.setPower(leftFrontPower * 0.5);
-            robot.rightFrontDrive.setPower(rightFrontPower * 0.5);
-            robot.leftBackDrive.setPower(leftBackPower * 0.5);
-            robot.rightBackDrive.setPower(rightBackPower * 0.5);
+            robot.leftFrontDrive.setPower(leftFrontPower * Robot.MAX_DRIVE_SPEED);
+            robot.rightFrontDrive.setPower(rightFrontPower * Robot.MAX_DRIVE_SPEED);
+            robot.leftBackDrive.setPower(leftBackPower * Robot.MAX_DRIVE_SPEED);
+            robot.rightBackDrive.setPower(rightBackPower * Robot.MAX_DRIVE_SPEED);
 
             if (openClawButtonPressed) {
                 robot.openClaw();
@@ -155,33 +155,37 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 //            }
             robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             if (pivotArmControl > 0) {
-                robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+               // robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 robot.pivotArmMotor.setPower(pivotArmControl);
 //                robot.armPivotUp(pivotArmPower);
             } else if (pivotArmControl<0){
-                robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+               // robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 robot.pivotArmMotor.setPower(pivotArmControl);
             }
             else {
-                robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+               // robot.pivotArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
               robot.pivotArmMotor.setPower(0);
             }
 
 //            if (gamepad2.x) {
-//                robot.autoArmPivot(-5, 0.5);
+//              robot.autoArmPivot(0.5);
 //            }
 
             if (slideControl > 0) {
+
                 robot.extendSlide(slidePower);
-            }else {
+            }else if (slideControl < 0){
+                robot.retractSlide(slidePower);
+            }
+            else {
                 robot.slideMotor.setPower(0);
             }
 
-            if (slideControl < 0) {
-                robot.retractSlide(slidePower);
-            }else {
-                robot.slideMotor.setPower(0);
-            }
+
+
+//            if (robot.slideMotor.getCurrentPosition() >-2180) {
+//                robot.slideMotor.setPower(0);
+//            }
 
             if (startLeftClawButtonPresses){
                 robot.leftClaw.setPosition(0);
@@ -194,6 +198,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime);
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Slide Position", robot.slideMotor.getCurrentPosition());
             telemetry.update();
         }
     }

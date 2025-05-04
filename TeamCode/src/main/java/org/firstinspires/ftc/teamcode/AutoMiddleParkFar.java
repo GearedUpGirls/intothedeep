@@ -11,7 +11,8 @@ public class AutoMiddleParkFar extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()){
             robot.init(hardwareMap);
-            robot.strafeRight(robot.FIELD_TILE*3,0.75);
+            robot.driveForward(robot.FIELD_TILE/5,Robot.MAX_DRIVE_SPEED);
+            robot.strafeRight(robot.FIELD_TILE*3.3,Robot.MAX_DRIVE_SPEED);
 
         }
     }
