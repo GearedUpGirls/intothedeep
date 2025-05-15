@@ -25,7 +25,7 @@ public class Robot {
     static final double LEFT_CLAW_OPEN_POSITION = 0.4;
     static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
     static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.9;
-    static final double MAX_DRIVE_SPEED = 0.75;
+    static final double MAX_DRIVE_SPEED = 0.6;
 
     static final double PIVOT_ARM_UP = 45;
 

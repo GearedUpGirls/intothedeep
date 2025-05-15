@@ -41,7 +41,7 @@ public class ArmTest extends LinearOpMode {
                 //arm up
                 robot.autoArmPivot(15);
                 //slide down
-                //robot.autoMoveSlide();
+                //robot.autoMoveSlide(-);
                 //bakc
                 robot.driveBackward(Robot.FIELD_TILE,Robot.MAX_DRIVE_SPEED);
                 //lower arm
