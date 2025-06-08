@@ -20,7 +20,7 @@ public class Robot {
     public Servo leftClaw = null;
     static final double RIGHT_CLAW_CLOSED_POSITION = 0.6;
     //change these values
-    static final double LEFT_CLAW_CLOSED_POSITION = 0.5;
+    static final double LEFT_CLAW_CLOSED_POSITION = 0.6;
     static final double RIGHT_CLAW_OPEN_POSITION =0.4;
     static final double LEFT_CLAW_OPEN_POSITION = 0.4;
     static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
