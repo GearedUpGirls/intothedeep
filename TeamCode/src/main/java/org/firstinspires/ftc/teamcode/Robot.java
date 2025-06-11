@@ -18,10 +18,10 @@ public class Robot {
     public DcMotor slideMotor = null;
     public Servo rightClaw = null;
     public Servo leftClaw = null;
-    static final double RIGHT_CLAW_CLOSED_POSITION = 0.6;
+    static final double RIGHT_CLAW_CLOSED_POSITION = 0.5;
     //change these values
     static final double LEFT_CLAW_CLOSED_POSITION = 0.5;
-    static final double RIGHT_CLAW_OPEN_POSITION =0.4;
+    static final double RIGHT_CLAW_OPEN_POSITION =0.3;
     static final double LEFT_CLAW_OPEN_POSITION = 0.4;
     static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
     static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.9;
